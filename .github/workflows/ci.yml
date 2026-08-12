@@ -36,12 +36,6 @@ jobs:
         coverage run -m unittest discover -s . -p 'test_*.py'
         coverage report
     
-    - name: Comment coverage on PR
-      if: github.event_name == 'pull_request'
-      uses: py-cov-action/python-coverage-comment-action@v3
-      with:
-        GITHUB_TOKEN: ${{ github.token }}
-    
     - name: Upload test and coverage artifacts
       if: always()
       uses: actions/upload-artifact@v7
