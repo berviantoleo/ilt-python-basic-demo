@@ -38,16 +38,7 @@ jobs:
     
     - name: Comment coverage on PR
       if: github.event_name == 'pull_request'
-      uses: py-cov-action/python-coverage-comment-action@v3
+      uses: py-cov-action/python-coverage-comment-action@v4.3
       with:
         GITHUB_TOKEN: ${{ github.token }}
-    
-    - name: Upload test and coverage artifacts
-      if: always()
-      uses: actions/upload-artifact@v7
-      with:
-        name: test-coverage-${{ matrix.python-version }}
-        path: |
-          .coverage
-          htmlcov/
-        retention-days: 30
+        ACTIVITY: "${{ github.event_name == 'push' && 'save_coverage_data_files' || 'process_pr' }}"
