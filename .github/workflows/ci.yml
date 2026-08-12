@@ -36,9 +36,12 @@ jobs:
         coverage run -m unittest discover -s . -p 'test_*.py'
         coverage report
     
-    - name: Comment coverage on PR
-      if: github.event_name == 'pull_request'
-      uses: py-cov-action/python-coverage-comment-action@v4.3
+    - name: Upload test and coverage artifacts
+      if: always()
+      uses: actions/upload-artifact@v7
       with:
-        GITHUB_TOKEN: ${{ github.token }}
-        ACTIVITY: "${{ github.event_name == 'push' && 'save_coverage_data_files' || 'process_pr' }}"
+        name: test-coverage-${{ matrix.python-version }}
+        path: |
+          .coverage
+          htmlcov/
+        retention-days: 30
